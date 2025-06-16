@@ -7,12 +7,14 @@ LABEL Application='pl.rachuna-net.containers.terraform'
 LABEL Description='terraform container image'
 LABEL version="${CONTAINER_VERSION}"
 
+COPY scripts/ /opt/scripts/
 
 # Install packages
 RUN apt-get update && apt-get install -y \
         curl \
         git \
         gnupg2 \
+        jq \
         lsb-release \
         openssh-client \
 # Add repository hashicorp
@@ -23,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && useradd -u 1001 -m -s /bin/bash nonroot
+    && chmod +x /opt/scripts/*.bash
 
-USER nonroot
+ENTRYPOINT [ "/opt/scripts/entrypoint.bash" ]
+
