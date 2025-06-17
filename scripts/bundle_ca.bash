@@ -52,7 +52,7 @@ for serial in $serials; do
   echo "Pobieranie certyfikatu dla serialu: $serial"
   cert=$(curl -s -k -H "X-Vault-Token: $VAULT_TOKEN" "$VAULT_ADDR/v1/$PKI_PATH/cert/$serial" | jq -r '.data.certificate')
   echo "$cert" >> "$OUTPUT_PATH"
-  echo "✅ Zapisano certyfikat: $OUTPUT_PATH"
+  echo "  Zapisano certyfikat: $OUTPUT_PATH"
 done
 
 update-ca-certificates
