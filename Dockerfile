@@ -25,7 +25,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && chmod +x /opt/scripts/*.bash
+    # Make scripts executable
+    && chmod +x /opt/scripts/*.bash \
+
+    # Create a non-root user and set permissions
+    && useradd -m -s /bin/bash user_terraform \
+    && chown -R user_terraform:user_terraform /opt/scripts
+
+USER user_terraform
 
 ENTRYPOINT [ "/opt/scripts/entrypoint.bash" ]
+
 
