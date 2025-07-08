@@ -18,12 +18,12 @@ if [[ -z "$GITLAB_SSH_KEY" ]]; then
   echo "🔑 Pobrano sekrety z Vaulta"
 fi
 
-mkdir -p /home/user_terraform/.ssh
-chmod 700 /home/user_terraform/.ssh
-echo "$GITLAB_SSH_KEY" > /home/user_terraform/.ssh/id_rsa
-chmod 600 /home/user_terraform/.ssh/id_rsa
+mkdir -p $HOME/.ssh
+chmod 700 $HOME/.ssh
+echo "$GITLAB_SSH_KEY" > $HOME/.ssh/id_rsa
+chmod 600 $HOME/.ssh/id_rsa
 
-echo "Host gitlab.com IdentityFile /home/user_terraform/.ssh/id_rsa StrictHostKeyChecking no" > /home/user_terraform/.ssh/config
-ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+echo "Host gitlab.com IdentityFile $HOME/.ssh/id_rsa StrictHostKeyChecking no" > $HOME/.ssh/config
+ssh-keyscan gitlab.com >> $HOME/.ssh/known_hosts
 
 echo "✅ Klucze SSH zostały pomyślnie skonfigurowane."
