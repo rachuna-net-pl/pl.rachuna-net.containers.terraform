@@ -29,10 +29,10 @@ RUN apt-get update && apt-get install -y \
     && chmod +x /opt/scripts/*.bash \
 
     # Create a non-root user and set permissions
-    && useradd -m -s /bin/bash user_terraform \
-    && chown -R user_terraform:user_terraform /opt/scripts
+    && useradd -m -s /bin/bash nonroot \
+    && chown -R nonroot:nonroot /opt/scripts
 
-USER user_terraform
+USER nonroot
 
 ENTRYPOINT [ "/opt/scripts/entrypoint.bash" ]
 
