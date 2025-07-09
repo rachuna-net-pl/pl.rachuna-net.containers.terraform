@@ -1,0 +1,41 @@
+---
+base_image: ubuntu:noble
+
+packages:
+  - curl
+  - git
+  - gnupg2
+  - jq
+  - lsb-release
+  - openssh-client
+  - ca-certificates
+  - gnupg
+  - terraform
+
+# ADD CERTIFICATE
+
+custom_repos:
+  - name: hashicorp
+    key_url: https://apt.releases.hashicorp.com/gpg
+    key_path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    repo_entry: >-
+      deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg]
+      https://apt.releases.hashicorp.com noble main
+
+extra_commands:
+  - apt-get update
+  - apt-get install -y terraform
+  - apt-get upgrade -y
+
+copy:
+  - source: scripts/
+    destination: /opt/scripts/
+    #chmod:  add
+
+entrypoint: ["/opt/scripts/entrypoint.bash"]
+
+user:
+  name: nonroot
+  shell: /bin/bash
+  home: /home/nonroot
+  chown: /opt/scripts/

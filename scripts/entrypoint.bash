@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eauo pipefail
 
 /opt/scripts/gitlab.bash
 
