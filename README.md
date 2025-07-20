@@ -1,6 +1,6 @@
 ::include{file=.gitlab/badges.md}
 
-# ![](https://gitlab.com/pl.rachuna-net/infrastructure/terraform/iac-gitlab/-/raw/main/images/project/terraform.png){height=20px}  terraform
+# <img src="https://gitlab.com/pl.rachuna-net/infrastructure/terraform/iac-gitlab/-/raw/main/images/project/terraform.png" alt="terraform" height="20"/> terraform
 
 Obraz Dockerowy z narzędziem Terraform.
 
