@@ -1,0 +1,66 @@
+---
+base_image: ubuntu:noble
+
+labels:
+  maintainer: "Maciej Rachuna <rachuna.maciej@gmail.com>"
+  version: "1.0.0"
+  image_source: "https://gitlab.com/pl.rachuna-net/containers/terraform"
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  TF_IN_AUTOMATION: "true"
+  LANG: C.UTF-8
+
+before_build_commands:
+  ## terraform docs
+  - curl -sLo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.20.0/terraform-docs-v0.20.0-linux-amd64.tar.gz
+  - tar -xzf terraform-docs.tar.gz
+  - chmod +x terraform-docs
+  ## terraform lint
+  - curl -sLo ./tflint_linux_amd64.zip https://github.com/terraform-linters/tflint/releases/download/v0.58.1/tflint_linux_amd64.zip
+  - unzip tflint_linux_amd64.zip
+  - chmod +x tflint
+
+packages:
+  - bash
+  - curl
+  - git
+  - gnupg2
+  - jq
+  - libssl3
+  - lsb-release
+  - openssh-client
+  - ca-certificates
+  - gnupg
+  - terraform
+
+custom_repos:
+  - name: hashicorp
+    key_url: https://apt.releases.hashicorp.com/gpg
+    key_path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    repo_entry: >-
+      deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg trusted=yes] https://apt.releases.hashicorp.com noble main
+
+extra_commands:
+  - chmod 777 /opt/scripts
+  - chmod 777 /opt/scripts/*
+  - terraform --version
+  - terraform-docs -v
+  - tflint --version
+
+copy:
+  - source: scripts/
+    destination: /opt/scripts/
+  - source: terraform-docs
+    destination: /usr/local/bin/terraform-docs
+  - source: tflint
+    destination: usr/local/bin/tflint
+
+user:
+  name: nonroot
+  shell: /bin/bash
+  home: /home/nonroot
+  chown: /opt/scripts/
+
+entrypoint: "/opt/scripts/entrypoint.bash"
+cmd: "/bin/bash"
