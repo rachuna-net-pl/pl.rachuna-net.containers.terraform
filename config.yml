@@ -3,7 +3,6 @@ base_image: ubuntu:noble
 
 labels:
   maintainer: "Maciej Rachuna <rachuna.maciej@gmail.com>"
-  version: "1.0.0"
   image_source: "https://gitlab.com/pl.rachuna-net/containers/terraform"
 
 env:
@@ -54,7 +53,7 @@ copy:
   - source: terraform-docs
     destination: /usr/local/bin/terraform-docs
   - source: tflint
-    destination: usr/local/bin/tflint
+    destination: /usr/local/bin/tflint
 
 user:
   name: nonroot
